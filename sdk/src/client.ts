@@ -277,7 +277,6 @@ export class ZoryaClient {
         collateralVault: args.collateralVault,
         obligation: this.pdas.obligation(args.market, args.owner),
         tokenProgram: TOKEN_PROGRAM_ID,
-        systemProgram: SystemProgram.programId,
       })
       .signers(args.signers ?? [])
       .rpc();

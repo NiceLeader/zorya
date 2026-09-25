@@ -210,7 +210,7 @@ async function main() {
   const idl = JSON.parse(
     readFileSync(resolve(__dirname, "../target/idl/zorya.json"), "utf8"),
   ) as Idl;
-  const program = new Program(idl as Zorya, provider);
+  const program = new Program<Zorya>(idl as Zorya, provider);
   const client = new ZoryaClient(program);
   const owner = payer.publicKey;
 
@@ -446,7 +446,6 @@ async function main() {
             collateralVault: keys.collateralVault,
             obligation: client.pdas.obligation(keys.market, borrower.publicKey),
             tokenProgram: TOKEN_PROGRAM_ID,
-            systemProgram: SystemProgram.programId,
           })
           .instruction();
         return [ix];
