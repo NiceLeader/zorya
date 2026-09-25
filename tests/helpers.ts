@@ -411,7 +411,6 @@ export async function withdrawCollateral(
       collateralVault: fx.collateralVault,
       obligation: pda(program.programId).obligation(fx.market, owner.publicKey),
       tokenProgram: TOKEN_PROGRAM_ID,
-      systemProgram: SystemProgram.programId,
     })
     .signers([owner])
     .rpc();
