@@ -31,7 +31,14 @@ APR and liquidation price are **display only**. Never send them to the program.
 1. **Quote.** A lender locks USDC in a quote vault and cites a tick and a face. Those dollars cannot vanish quietly. Partial fills and cancel of the remainder are allowed.
 2. **Fill.** A borrower deposits collateral, then takes the quote. The program checks the tick, the escrow, the oracle, and health, then settles both sides in one instruction. No crank. No solver. The taker picks the quote.
 3. **Positions.** The maker receives Claims. The taker receives USDC and Obligations. There is no bilateral loan object. Units of the same market are fungible.
-4. **Date.** After `now >= maturity`, debt cannot increase. The lender redeems Claims against the market loan vault. The borrower can still repay. Unpaid debt is liquidable.
+4. **Date.** After `now >= maturity`, debt cannot increase. Claims redeem against the market loan vault only once `total_debt_units == 0`, after repayment or liquidation has recorded any shortfall. The borrower can still repay. Unpaid debt is liquidable.
+
+Redemption remains available while paused once debt is clear. A remaining debt unit
+keeps redemption closed even if repaid cash is available; an unavailable oracle or
+liquidator can therefore delay every lender's exit. No timeout bypass is provided.
+After debt is clear, cash-short redemption still burns only the units covered by
+available cash and leaves the remaining credit intact. Rebuild the IDL for `OpenDebt`;
+the instruction arguments and accounts are unchanged.
 
 ## Layer 1
 
