@@ -109,6 +109,16 @@ npm run test:fuzz
 npm test
 ```
 
+`npm test` includes the Q18 cash-short redemption regression. `Anchor.toml`
+loads its committed fixtures from `tests/fixtures/settled-cash-short`: debt is
+already zero, the loss factor is 50%, and 20 loan tokens back 100 units of face.
+The test checks payout 20, burned face 40, remaining credit 60, and an unchanged
+state when a further redemption finds no cash. This synthetic state tests the
+instruction's partial-redemption path, not reachability through normal operations.
+Regenerate these local-test fixtures after building the IDL with
+`node scripts/generate-q18-fixtures.cjs`. A manually started validator must load
+the same account fixtures listed in `Anchor.toml`.
+
 Production binary (no mock oracle), no deploy:
 
 ```bash
